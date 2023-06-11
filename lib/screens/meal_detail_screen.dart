@@ -3,16 +3,19 @@ import 'package:flutter/material.dart';
 import '../dummy_data.dart';
 
 class MealDetailScreen extends StatelessWidget {
-  const MealDetailScreen({super.key});
+  final Function _toggleFavourite;
+  final Function _isFav;
+
+  const MealDetailScreen(this._toggleFavourite, this._isFav);
   static const String routeName = '/meal-detial-screen';
+
   @override
   Widget build(BuildContext context) {
     final String mealId = ModalRoute.of(context)?.settings.arguments as String;
     final selectedMeal = dummyMeals.firstWhere(
       (element) => element.id == mealId,
     );
-    return Center(
-        child: Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: Text(selectedMeal.title),
       ),
@@ -31,11 +34,13 @@ class MealDetailScreen extends StatelessWidget {
             buildSection(context, 'Ingredients'),
             buildContainerList(ListView.builder(
               itemBuilder: (ctx, i) => Card(
+                elevation: 5,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
                 color: Theme.of(context).cardColor,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   child: Text(
                     selectedMeal.ingredients[i],
                     style: Theme.of(context).textTheme.bodySmall,
@@ -66,7 +71,11 @@ class MealDetailScreen extends StatelessWidget {
           ],
         )),
       ),
-    ));
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _toggleFavourite(mealId),
+        child: Icon(_isFav(mealId) ? Icons.star : Icons.star_border),
+      ),
+    );
   }
 
   Container buildContainerList(Widget child) {
@@ -74,7 +83,7 @@ class MealDetailScreen extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
         color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(15),
       ),
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(10),

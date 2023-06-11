@@ -81,6 +81,9 @@ flutter:
     - family: GustatoryDelightRegular
       fonts:
         - asset: assets/fonts/GustatoryDelightRegular-rgX3L.ttf
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
   #         weight: 700
   #
   # For details regarding fonts from package dependencies,
